@@ -1,0 +1,35 @@
+{
+  "name": "sass.js",
+  "version": "0.6.2",
+  "main": [
+    "./dist/sass.min.js",
+    "./dist/sass.worker.js"
+  ],
+  "ignore": [
+    "**/.*",
+    "*.html",
+    "*.md",
+    "*.json",
+    "bin",
+    "scss",
+    "src",
+    "test"
+  ],
+  "keywords": [
+    "libsass",
+    "sass",
+    "scss",
+    "css"
+  ],
+  "homepage": "https://github.com/medialize/sass.js",
+  "_release": "0.6.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v0.6.2",
+    "commit": "753707a551663d5534778f71276d8c2e47c202d3"
+  },
+  "_source": "git://github.com/medialize/sass.js.git",
+  "_target": "~0.6.2",
+  "_originalSource": "sass.js",
+  "_direct": true
+}
