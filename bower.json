@@ -1,0 +1,22 @@
+{
+  "name": "hex-board-game",
+  "version": "0.0.0",
+  "homepage": "https://github.com/s-a/hex-board-game",
+  "authors": [
+    "s-a <stephan.ahlf@googlemail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery-overscroll": "~1.7.7",
+    "jquery": "~2.1.3",
+    "react": "~0.12.2",
+    "sass.js": "~0.6.2"
+  }
+}
