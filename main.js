@@ -4,15 +4,15 @@
     var $board = $("#game-board");
     var board = $board.get(0);
     var x;
+    var rowsToFetch = 10;
 
 
     var onBottomScroll = function() {
         var bottomHex = $(".hex:first");
-        var rowsToAdd = 10;
         var currentColCount = game.GUI.grid.state.rows[0].length;
-        board.scrollTop -= bottomHex.height() * (rowsToAdd - 1);
-        for (var i = 0; i < rowsToAdd; i++) {
-            addRow(currentColCount, true);
+        board.scrollTop -= bottomHex.height() * (rowsToFetch - 1);
+        for (var i = 0; i < rowsToFetch; i++) {
+            appendRow(currentColCount, true);
             x++;
         }
         game.GUI.grid.setState({rows: game.GUI.grid.state.rows}); 
@@ -20,11 +20,10 @@
 
     var onTopScroll = function() {
         var bottomHex = $(".hex:first");
-        var rowsToAdd = 10;
         var currentColCount = game.GUI.grid.state.rows[0].length;
-        board.scrollTop += bottomHex.height() * (rowsToAdd - 1);
+        board.scrollTop += bottomHex.height() * (rowsToFetch - 1);
         x = game.GUI.grid.state.rows[0][0].position.x;
-        for (var i = 0; i < rowsToAdd; i++) {
+        for (var i = 0; i < rowsToFetch; i++) {
             x--;
             prependRow(currentColCount, true);
         }
@@ -44,7 +43,7 @@
     });
 
 
-    var addRow = function(colCount, magic, currentData) {
+    var appendRow = function(colCount, magic, currentData) {
         var result = currentData;
         if (!currentData){
             result = game.GUI.grid.state.rows;
@@ -71,7 +70,7 @@
         if (!currentData){
             result = game.GUI.grid.state.rows;
         }
-         if (magic){
+        if (magic){
            result.pop();
         }
         var row = [];
@@ -89,24 +88,33 @@
     };
 
 
-    function getMockupFieldData () {
+    var getMockupFieldData = function  (onComplete) {
         x = 0;
         var result = [];
         var needed = game.GUI.board.neededHexTilesToOverfillScreen();
         for (var i = 0; i < needed.rowCount; i++) {
-            result = addRow(needed.colCount, false, result);
+            result = appendRow(needed.colCount, false, result);
         }
-        return result;
-    }
+
+        window.setTimeout((function(data) {
+            onComplete(data); 
+        })(result), 1000);
+    };
+
+    var reload = function(){
+
+    };
 
 
     $("body").on("game-components-ready", function() {
-        var mockupFieldData = getMockupFieldData();
-        game.GUI.board.load(mockupFieldData);
+        getMockupFieldData(function(mockupFieldData) {
+            game.GUI.board.load(mockupFieldData);
+        });
     });
     $(window).resize(function(){
-        var mockupFieldData = getMockupFieldData();
-        game.GUI.board.load(mockupFieldData);
+        getMockupFieldData(function(mockupFieldData) {
+            game.GUI.board.load(mockupFieldData);
+        });
     });
 
 })(window.jQuery, window.game, window.game.classes.Field);
