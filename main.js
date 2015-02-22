@@ -21,13 +21,16 @@
     });
 
     
-    var addRow = function  (cols, magic, done) {
-        var rows = game.GUI.grid.state.rows;
+    var addRow = function  (colCount, magic, currentData) {
+        var result = currentData;
+        if (!currentData){
+            result = game.GUI.grid.state.rows;
+        }
          if (magic){
-           rows.shift();
+           result.shift();
         }
         var row = [];
-        for (var i = 0; i < cols; i++) {
+        for (var i = 0; i < colCount; i++) {
           var fieldParms = {
             position : {
                 x:x,
@@ -36,37 +39,30 @@
           };
           row.push(new Field(fieldParms));
         }
-        rows.push(row);
+        result.push(row);
         x++;
+        return result;
     };
 
 
-
-
-    var load = function  () {
+    function getMockupFieldData () {
         x = 0;
-        game.GUI.grid.state.rows = [];
+        var result = [];
         var needed = game.GUI.board.neededHexTilesToOverfillScreen();
         for (var i = 0; i < needed.rowCount; i++) {
-            addRow(needed.colCount);
+            result = addRow(needed.colCount, false, result);
         }
+        return result;
+    }
 
-        game.GUI.board.zoom(2);
 
-        $board.one('transitionend', ".hex", function(e) {
-            board.scrollTop = board.scrollHeight/4;
-            board.scrollLeft = board.scrollWidth/4;
-        });
-
-        game.GUI.grid.setState({rows: game.GUI.grid.state.rows}, function  () {
-            board.scrollTop = board.scrollHeight/4;
-            board.scrollLeft = board.scrollWidth/4;
-        }); 
-    };
-
-    $("body").on("game-components-ready", load);
-    $(window).resize(load);
-
-   
+    $("body").on("game-components-ready", function() {
+        var mockupFieldData = getMockupFieldData();
+        game.GUI.board.load(mockupFieldData);
+    });
+    $(window).resize(function(){
+        var mockupFieldData = getMockupFieldData();
+        game.GUI.board.load(mockupFieldData);
+    });
 
 })(window.jQuery, window.game, window.game.classes.Field);
