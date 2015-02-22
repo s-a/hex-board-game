@@ -8,9 +8,9 @@
 
 
     var onBottomScroll = function() {
+        board.removeEventListener('scroll', onScroll);
         var bottomHex = $(".hex:first");
         var currentColCount = game.GUI.grid.state.rows[0].length;
-        board.scrollTop -= bottomHex.height() * (rowsToFetch - 1);
 
         var rows = game.GUI.grid.state.rows;
         var ordinate = {
@@ -19,14 +19,15 @@
         };
         ordinate.x2 = ordinate.x1 + rowsToFetch;
         ordinate.y2 = ordinate.y1 + rows[rows.length-1].length;
-debugger;
         getMockupFieldData(ordinate, function(rows) {
-debugger;
             for (var r = 0; r < rows.length; r++) {
                 game.GUI.grid.state.rows.shift();
                 game.GUI.grid.state.rows.push(rows[r]);
             }
-            game.GUI.grid.setState({rows: game.GUI.grid.state.rows});
+            board.scrollTop -= bottomHex.height() * (rowsToFetch - 1);
+            game.GUI.grid.setState({rows: game.GUI.grid.state.rows}, function() {
+                board.addEventListener('scroll', onScroll);
+            });
         });
     };
 
