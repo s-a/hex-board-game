@@ -20,13 +20,13 @@ game.GUI.board.viewPoint = {
 };
 ```
 
-Currently there is mockup function fetching the hex map data. You can overwrite this method to fetch your data from server.
-
+Currently there is a mockup function fetching the hex map data. You can overwrite this method to fetch your data from server.
 ``` javascript
 (function($, game, Field) {
  
     GUI.prototype.board.fetchData = function  (ordinate, onComplete) {
-        $loading.show();
+        var self = this;
+        this.GUI.$loading.show();
         var rows = [];
 
         for (var x = ordinate.x1; x < ordinate.x2; x++) {
@@ -45,9 +45,9 @@ Currently there is mockup function fetching the hex map data. You can overwrite 
 
         window.setTimeout((function() {
             onComplete(rows);
-            $loading.hide();
+            self.GUI.$loading.hide();
         }), 800);
-    }; 
+    };
     
 })(window.jQuery, window.game, window.game.class.Field);
 ```
