@@ -2,4 +2,4 @@
 
 
 
-})(window.jQuery, window.game, window.game.classes.Field);
+})(window.jQuery, window.game, window.game.class.Field);
